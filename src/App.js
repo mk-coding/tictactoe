@@ -46,24 +46,29 @@ function App() {
   function checkDiagonal() {
     const { column, line } = playedCell;
     let diagonalToCheck;
+    let isDiagonalWinnig = false;
 
     // Diagonal from Top-left to Bottom-Right
     if (column === line) {
       diagonalToCheck = grid.map((line, index) => line[index]);
-      return diagonalToCheck.every(cell => cell.ownedBy === activePlayer);
+      isDiagonalWinnig = diagonalToCheck.every(
+        cell => cell.ownedBy === activePlayer
+      );
     }
 
     // Diagonal from Bottom-left to Top-Right
     const lastLine = gridSize - 1;
-    if (column === lastLine - line) {
+    if (!isDiagonalWinnig && column === lastLine - line) {
       diagonalToCheck = grid.map(
         (currentLine, index) => currentLine[lastLine - index]
       );
-      return diagonalToCheck.every(cell => cell.ownedBy === activePlayer);
+      isDiagonalWinnig = diagonalToCheck.every(
+        cell => cell.ownedBy === activePlayer
+      );
     }
 
     // The cell does not belong to a diagonal
-    return false;
+    return isDiagonalWinnig;
   }
 
   function checkColumn() {
